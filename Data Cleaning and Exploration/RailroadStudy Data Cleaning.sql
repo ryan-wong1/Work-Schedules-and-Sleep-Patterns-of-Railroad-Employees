@@ -16,6 +16,7 @@ from dbo.RailroadData1;
 select *
 from dbo.Variables;
 
+
 /* -----------------------------------------------------------------------------------------------------
 CONVERSIONS FROM VARIABLES TABLE:
 Age_Group: 1=20-29, 2=30-39, 3=40-49, 4=50-59, 5=60+
@@ -36,9 +37,23 @@ Alert_at_Work, Mentally_Drained, Phys_Drained: 1=never, 2=occasionally, 3=freque
 
 Emergencies, Lack_of_control, Sleep_loss, Coord_other_depts, Job_pressure, 
 Scanty_Rules, Mgmt_policies, Job_Security, Surges_in_work, Communication
-Inadeq_Staff, Resp_for_others_safety, BreakTime, TimeOff:
+Inadeq_Staff, Resp_for_others_safety, Break_time, Time_off:
 1=no stress, 2=a little stress, 3=stressful, 4=very stressful
 */------------------------------------------------------------------------------------------------------
+
+/*
+-- Convert Childrendependents column into Children_dependents
+exec sp_rename 'RailroadData1.Childrendependents', 'Children_dependents', 'column';
+
+-- Convert job_schedule into Job_schedule
+exec sp_rename 'RailroadData1.job_schedule', 'Job_schedule', 'column';
+
+-- Convert BreakTime into Break_time
+exec sp_rename 'RailroadData1.BreakTime', 'Break_time', 'column';
+
+-- Convert TimeOff into Time_off
+exec sp_rename 'RailroadData1.TimeOff', 'Time_off', 'column';
+*/
 
 --View data type of all columns
 SELECT Column_Name, Data_Type
@@ -78,10 +93,61 @@ alter table RailroadData1
 alter column Medical_treatment nvarchar(255);
 
 alter table RailroadData1
-alter column job_schedule nvarchar(255);
+alter column Job_schedule nvarchar(255);
 
 alter table RailroadData1
 alter column FRA_report nvarchar(255);
+
+alter table RailroadData1
+alter column Alert_at_Work nvarchar(255);
+
+alter table RailroadData1
+alter column Mentally_Drained nvarchar(255);
+
+alter table RailroadData1
+alter column Phys_Drained nvarchar(255);
+
+alter table RailroadData1
+alter column Emergencies nvarchar(255);
+
+alter table RailroadData1
+alter column Lack_of_control nvarchar(255);
+
+alter table RailroadData1
+alter column Sleep_loss nvarchar(255);
+
+alter table RailroadData1
+alter column Coord_other_depts nvarchar(255);
+
+alter table RailroadData1
+alter column Job_pressure nvarchar(255);
+
+alter table RailroadData1
+alter column Scanty_Rules nvarchar(255);
+
+alter table RailroadData1
+alter column Mgmt_policies nvarchar(255);
+
+alter table RailroadData1
+alter column Job_Security nvarchar(255);
+
+alter table RailroadData1
+alter column Surges_in_work nvarchar(255);
+
+alter table RailroadData1
+alter column Communication nvarchar(255);
+
+alter table RailroadData1
+alter column Inadeq_Staff nvarchar(255);
+
+alter table RailroadData1
+alter column Resp_for_others_safety nvarchar(255);
+
+alter table RailroadData1
+alter column Break_time nvarchar(255);
+
+alter table RailroadData1
+alter column Time_off nvarchar(255);
 
 
 ------------------------
@@ -359,25 +425,30 @@ end
 where try_cast(job_schedule as int) is not null;
 
 
-/*
+
 --**Relief_schedule: e.g., 11223 = 1st shift, 1st shift, 2nd shift, 2nd shift, 3rd shift
-select Relief_schedule
-from dbo.RailroadData1;
-
-select relief_schedule,
-case
-when relief_schedule = 1 then ''
-when relief_schedule = 1 then ''
-end
-from dbo.RailroadData1;
-
 update RailroadData1
-set Relief_schedule= 
+set Relief_schedule = 
 case
-when relief_schedule = 1 then ''
-when relief_schedule = 1 then ''
-end;
-*/
+when Relief_schedule = '11223' then '1st, 1st, 2nd, 2nd, 3rd'
+when Relief_schedule = '11222' then '1st, 1st, 2nd, 2nd, 2nd'
+when Relief_schedule = '12233' then '1st, 2nd, 2nd, 3rd, 3rd'
+when Relief_schedule = '22223' then '2nd, 2nd, 2nd, 2nd, 3rd'
+when Relief_schedule = 'E3333' then 'Emergency, 3rd, 3rd, 3rd, 3rd'
+when Relief_schedule = '12222' then '1st, 2nd, 2nd, 2nd, 2nd'
+when Relief_schedule = '11112' then '1st, 1st, 1st, 1st, 2nd'
+when Relief_schedule = 'other' then 'Other'
+when Relief_schedule = '11233' then '1st, 1st, 2nd, 3rd, 3rd'
+when Relief_schedule = '11333' then '1st, 1st, 3rd, 3rd, 3rd'
+when Relief_schedule = '23333' then '2nd, 3rd, 3rd, 3rd, 3rd'
+when Relief_schedule = '111222' then '1st, 1st, 1st, 2nd, 2nd, 2nd'
+when Relief_schedule = '22233' then '2nd, 2nd, 2nd, 3rd, 3rd'
+when Relief_schedule = '333EE' then '3rd, 3rd, 3rd, Emergency, Emergency'
+when Relief_schedule = '11122' then '1st, 1st, 1st, 2nd, 2nd'
+when Relief_schedule = '33222' then '3rd, 3rd, 2nd, 2nd, 2nd'
+end
+where Relief_schedule is not null;
+
 
 
 --FRA_report: 1=yes, 2=no
@@ -401,26 +472,146 @@ end
 where try_cast(fra_report as int) is not null;
 
 
---Alert_at_Work, Mentally_Drained, Phys_Drained: 1=never, 2=occasionally, 3=frequently, 4=always
 
+--Alert_at_Work, Mentally_Drained, Phys_Drained: 1=never, 2=occasionally, 3=frequently, 4=always
+update RailroadData1
+set 
+alert_at_work = case
+when alert_at_work = 1 then 'Never'
+when alert_at_work = 2 then 'Occasionally'
+when alert_at_work = 3 then 'Frequently'
+when alert_at_work = 4 then 'Always'
+end,
+mentally_drained = case
+when mentally_drained = 1 then 'Never'
+when mentally_drained = 2 then 'Occasionally'
+when mentally_drained = 3 then 'Frequently'
+when mentally_drained = 4 then 'Always'
+end,
+phys_drained = case
+when phys_drained = 1 then 'Never'
+when phys_drained = 2 then 'Occasionally'
+when phys_drained = 3 then 'Frequently'
+when phys_drained = 4 then 'Always'
+end
+where 
+try_cast(alert_at_work as int) is not null and 
+try_cast(mentally_drained as int) is not null and 
+try_cast(phys_drained as int) is not null;
 
 
 
 /*
 Emergencies, Lack_of_control, Sleep_loss, Coord_other_depts, Job_pressure, 
 Scanty_Rules, Mgmt_policies, Job_Security, Surges_in_work, Communication
-Inadeq_Staff, Resp_for_others_safety, BreakTime, TimeOff:
+Inadeq_Staff, Resp_for_others_safety, Break_time, Time_off:
 1=no stress, 2=a little stress, 3=stressful, 4=very stressful
 */
+update RailroadData1
+set 
+emergencies = case
+when emergencies = 1 then 'No stress'
+when emergencies = 2 then 'A little stress'
+when emergencies = 3 then 'Stressful'
+when emergencies = 4 then 'Very stressful'
+end,
+lack_of_control = case
+when lack_of_control = 1 then 'No stress'
+when lack_of_control = 2 then 'A little stress'
+when lack_of_control = 3 then 'Stressful'
+when lack_of_control = 4 then 'Very stressful'
+end,
+sleep_loss = case
+when sleep_loss = 1 then 'No stress'
+when sleep_loss = 2 then 'A little stress'
+when sleep_loss = 3 then 'Stressful'
+when sleep_loss = 4 then 'Very stressful'
+end,
+coord_other_depts = case
+when coord_other_depts = 1 then 'No stress'
+when coord_other_depts = 2 then 'A little stress'
+when coord_other_depts = 3 then 'Stressful'
+when coord_other_depts = 4 then 'Very stressful'
+end,
+job_pressure = case
+when job_pressure = 1 then 'No stress'
+when job_pressure = 2 then 'A little stress'
+when job_pressure = 3 then 'Stressful'
+when job_pressure = 4 then 'Very stressful'
+end,
+scanty_rules = case
+when scanty_rules = 1 then 'No stress'
+when scanty_rules = 2 then 'A little stress'
+when scanty_rules = 3 then 'Stressful'
+when scanty_rules = 4 then 'Very stressful'
+end,
+mgmt_policies = case
+when mgmt_policies = 1 then 'No stress'
+when mgmt_policies = 2 then 'A little stress'
+when mgmt_policies = 3 then 'Stressful'
+when mgmt_policies = 4 then 'Very stressful'
+end,
+job_security = case
+when job_security = 1 then 'No stress'
+when job_security = 2 then 'A little stress'
+when job_security = 3 then 'Stressful'
+when job_security = 4 then 'Very stressful'
+end,
+surges_in_work = case
+when surges_in_work = 1 then 'No stress'
+when surges_in_work = 2 then 'A little stress'
+when surges_in_work = 3 then 'Stressful'
+when surges_in_work = 4 then 'Very stressful'
+end,
+communication = case
+when communication = 1 then 'No stress'
+when communication = 2 then 'A little stress'
+when communication = 3 then 'Stressful'
+when communication = 4 then 'Very stressful'
+end,
+inadeq_staff = case
+when inadeq_staff = 1 then 'No stress'
+when inadeq_staff = 2 then 'A little stress'
+when inadeq_staff = 3 then 'Stressful'
+when inadeq_staff = 4 then 'Very stressful'
+end,
+resp_for_others_safety = case
+when resp_for_others_safety = 1 then 'No stress'
+when resp_for_others_safety = 2 then 'A little stress'
+when resp_for_others_safety = 3 then 'Stressful'
+when resp_for_others_safety = 4 then 'Very stressful'
+end,
+Break_time = case
+when Break_time = 1 then 'No stress'
+when Break_time = 2 then 'A little stress'
+when Break_time = 3 then 'Stressful'
+when Break_time = 4 then 'Very stressful'
+end,
+Time_off = case
+when Time_off = 1 then 'No stress'
+when Time_off = 2 then 'A little stress'
+when Time_off = 3 then 'Stressful'
+when Time_off = 4 then 'Very stressful'
+end
+where 
+try_cast(emergencies as int) is not null and 
+try_cast(lack_of_control as int) is not null and 
+try_cast(sleep_loss as int) is not null and 
+try_cast(coord_other_depts as int) is not null and 
+try_cast(job_pressure as int) is not null and 
+try_cast(scanty_rules as int) is not null and 
+try_cast(mgmt_policies as int) is not null and 
+try_cast(job_security as int) is not null and 
+try_cast(surges_in_work as int) is not null and 
+try_cast(communication as int) is not null and 
+try_cast(inadeq_staff as int) is not null and 
+try_cast(resp_for_others_safety as int) is not null and 
+try_cast(Break_time as int) is not null and 
+try_cast(Time_off as int) is not null;
 
 
 
--- Convert blank values into?
-
--- Convert Childrendependents column into Children_dependents
-
--- Convert job_schedule into Job_schedule
-
--- Convert BreakTime into Break_time
-
--- Convert TimeOff into Time_off
+-------view final-------
+select *
+from dbo.RailroadData1;
+------------------------
