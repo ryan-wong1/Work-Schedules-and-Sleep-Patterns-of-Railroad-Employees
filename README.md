@@ -14,4 +14,4 @@ Dataset Files:
 - Dispatchers_Background_Data.xls = The original (uncleaned) dataset you can download via the data.gov link above.
 - RailroadStudy Cleaned.csv = The finalized cleaned dataset. Please view 'RailroadStudy Data Cleaning.sql' to see the code used for the data cleaning process. The Kaggle link below contains all the contents from this csv file but in a much more readable format.
 
-Kaggle link: https://www.kaggle.com/datasets/ryanwong1/factors-of-stress-on-railroad-employees/data
+Kaggle link: https://www.kaggle.com/datasets/ryanwong1/factors-of-fatigue-on-railroad-employees
