@@ -1,5 +1,4 @@
-Factors of fatigue on railroad employees
-Railroad dispatcher data on demographics, work, lifestyle, and stress factors
+Factors of fatigue on railroad employees - Railroad dispatcher data on demographics, work, lifestyle, and stress factors
 
 Data sourced from 'Federal Railroad Administration (FRA)': https://catalog.data.gov/dataset/work-schedules-and-sleep-patterns-of-railroad-employees
 
