@@ -610,8 +610,67 @@ try_cast(Break_time as int) is not null and
 try_cast(Time_off as int) is not null;
 
 
+--total_years_dispatcher_filtered (new column)
+--total_years_dispatcher but filtered into year groups (1-5, 6-10, etc.)
+select *,
+case
+when total_years_dispatcher <= 5 then '0 - 5 years'
+when total_years_dispatcher <= 10 then '6 - 10 years'
+when total_years_dispatcher <= 20 then '11 - 20 years'
+when total_years_dispatcher <= 30 then '21 - 30 years'
+else '31+ years'
+end as total_years_dispatcher_filtered,
+case
+when total_years_present_job <= 5 then '0 - 5 years'
+when total_years_present_job <= 10 then '6 - 10 years'
+when total_years_present_job <= 20 then '11 - 20 years'
+when total_years_present_job <= 30 then '21 - 30 years'
+else '31+ years'
+end as total_years_present_job_filtered
+from dbo.RailroadData1;
 
--------view final-------
+alter table RailroadData1
+add total_years_dispatcher_filtered varchar(15);
+
+alter table RailroadData1
+add total_years_present_job_filtered varchar(15);
+
+update RailroadData1
+set total_years_dispatcher_filtered = case
+when total_years_dispatcher <= 5 then '0 - 5 years'
+when total_years_dispatcher <= 10 then '6 - 10 years'
+when total_years_dispatcher <= 20 then '11 - 20 years'
+when total_years_dispatcher <= 30 then '21 - 30 years'
+else '31+ years'
+end,
+total_years_present_job_filtered = case
+when total_years_present_job <= 5 then '0 - 5 years'
+when total_years_present_job <= 10 then '6 - 10 years'
+when total_years_present_job <= 20 then '11 - 20 years'
+when total_years_present_job <= 30 then '21 - 30 years'
+else '31+ years'
+end;
+
+
+
+----cleaned RailroadData1 pre-join----
 select *
 from dbo.RailroadData1;
-------------------------
+------------------------------------
+
+
+
+-- created an independant table (RailroadStressRatings) containing only all of the stress related columns from the original dataset and excluding everything else
+-- RailroadStressRatings shows the stress ratings in numeric (1 - 4) values instead of 'No stress', 'A little stress', 'Stressful', and 'Very stressful'. Added '_Rating' to the end of each stress related column name. EX: Job_pressure > Job_pressure_Rating
+-- needed these numeric values to create certain visualizations via tableau
+select *
+from dbo.RailroadStressRatings;
+
+
+
+-- joining RailroadStressRatings to RailRoadData1 via common key of ID
+-- this is the finalized dataset
+select *
+from dbo.RailroadData1
+inner join dbo.RailroadStressRatings
+on dbo.RailroadData1.ID = dbo.RailroadStressRatings.ID;
