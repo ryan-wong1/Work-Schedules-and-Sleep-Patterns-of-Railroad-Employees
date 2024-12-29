@@ -13,7 +13,7 @@ Data Cleaning and Exploration:
 Dataset Files:
 - Dispatchers_Background_Data.xls = The original (uncleaned) dataset you can download via the data.gov link above.
 - RailroadStudy Cleaned.xlsx = The cleaned dataset converting all of the numeric values with its actual text meaning. This is identical to 'RailroadStudy Cleaned JOINED' but without the stress columns in numeric values joined to it.
-- RailroadStudy Stress Columns Numeric.xlsx = A seperate table I created containing only all of the stress related columns from the original dataset with the default numeric values and excluding everything else.
+- RailroadStudy Stress Columns Numeric.xlsx = A separate table I created containing only all of the stress related columns from the original dataset with the default numeric values and excluding everything else.
 - RailroadStudy Cleaned JOINED.xlsx = 'RailroadStudy Cleaned' and 'RailroadStudy Stress Columns Numeric' joined together via ID. This is the finalized cleaned dataset. Please view 'RailroadStudy Data Cleaning.sql' to see the code used for the data cleaning process. The Kaggle link below contains all the contents from this csv file but in a much more readable format.
 
 Kaggle link: https://www.kaggle.com/datasets/ryanwong1/factors-of-fatigue-on-railroad-employees
