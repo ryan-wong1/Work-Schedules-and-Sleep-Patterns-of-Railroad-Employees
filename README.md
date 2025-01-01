@@ -1,4 +1,5 @@
-# Analyzing Stress and Fatigue Drivers in Railroad Workforces - Railroad dispatcher data on demographics, work, lifestyle, and stress factors
+# Analyzing Stress and Fatigue Drivers in Railroad Workforces
+Railroad dispatcher data on demographics, work, lifestyle, and stress factors
 
 Data sourced from 'Federal Railroad Administration (FRA)': https://catalog.data.gov/dataset/work-schedules-and-sleep-patterns-of-railroad-employees
 
