@@ -17,5 +17,5 @@ This github respository contains the code used for the data cleaning and explora
 - **RailroadStudy Stress Columns Numeric.xlsx** = A separate table I created containing only all of the stress related columns from the original dataset with the default numeric values and excluding everything else.
 - **RailroadStudy Cleaned JOINED.xlsx** = 'RailroadStudy Cleaned' and 'RailroadStudy Stress Columns Numeric' joined together via ID. This is the finalized cleaned dataset. Please view 'RailroadStudy Data Cleaning.sql' to see the code used for the data cleaning process. The Kaggle link below contains all the contents from this csv file but in a much more readable format.
 
-## Kaggle link: 
+## Cleaned Dataset: 
 https://www.kaggle.com/datasets/ryanwong1/factors-of-fatigue-on-railroad-employees
