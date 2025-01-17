@@ -19,3 +19,6 @@ This github respository contains the code used for the data cleaning and explora
 
 ## Cleaned Dataset: 
 https://www.kaggle.com/datasets/ryanwong1/factors-of-fatigue-on-railroad-employees
+
+## Tableau Dashboard: 
+https://public.tableau.com/app/profile/ryanw/viz/RailroadEmployeeStudy/FINAL-gender
